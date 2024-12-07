@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 import vn.hoidanit.jobhunter.domain.User;
 import vn.hoidanit.jobhunter.repository.UserRepository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -19,5 +22,31 @@ public class UserService {
 
     public void handleDeleteUser(Long id){
         this.userRepository.deleteById(id);
+    }
+
+    public User fetchUserById(Long id) {
+        Optional<User> userOptional = this.userRepository.findById(id);
+
+        if (userOptional.isPresent()){
+            return userOptional.get();
+        }
+        return null;
+
+    }
+
+    public List<User> fetchAllUser(){
+        return this.userRepository.findAll();
+    }
+
+    public User updateAUser(User reqUser){
+        User userExisted = fetchUserById(reqUser.getId());
+        if (userExisted != null){
+            userExisted.setEmail(reqUser.getEmail());
+            userExisted.setName(reqUser.getName());
+            userExisted.setPassword(reqUser.getPassword());
+            //update
+            this.userRepository.save(reqUser);
+        }
+        return null;
     }
 }
