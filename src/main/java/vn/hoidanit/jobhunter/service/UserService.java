@@ -45,7 +45,7 @@ public class UserService {
             userExisted.setName(reqUser.getName());
             userExisted.setPassword(reqUser.getPassword());
             //update
-            this.userRepository.save(reqUser);
+            return this.userRepository.save(reqUser);
         }
         return null;
     }
