@@ -9,7 +9,6 @@ import vn.hoidanit.jobhunter.service.UserService;
 import vn.hoidanit.jobhunter.service.error.IdInvalidException;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -29,10 +28,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
 
-    @ExceptionHandler(value = IdInvalidException.class)
-    public ResponseEntity<String> handleIdException(IdInvalidException idException) {
-        return ResponseEntity.badRequest().body(idException.getMessage());
-    }
+
 
     @DeleteMapping("/users/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable(name = "id") Long id) throws IdInvalidException {
