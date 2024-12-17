@@ -15,6 +15,7 @@ import vn.hoidanit.jobhunter.domain.RestResponse;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.Optional;
 
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
@@ -34,8 +35,13 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
         RestResponse<Object> res = new RestResponse<Object>();
         res.setStatusCode(HttpStatus.UNAUTHORIZED.value());
-        res.setError(authException.getCause().getMessage());
-        res.setMessage("Token không hợp lệ (hết hạn, không đúng định dạng, hoặc không tồn tại)");
+
+        String errorMessage = Optional.ofNullable(authException.getCause()) //NULL
+                .map(Throwable::getMessage)
+                .orElse(authException.getMessage());
+
+        res.setError(errorMessage);
+        res.setMessage("Token không hợp lệ (hết hạn, không đúng định dạng, hoặc không truyền JWT ở header)...");
 
         mapper.writeValue(response.getWriter(), res);
     }
