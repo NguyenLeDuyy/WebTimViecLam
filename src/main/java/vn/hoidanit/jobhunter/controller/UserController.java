@@ -1,8 +1,10 @@
 package vn.hoidanit.jobhunter.controller;
 
 
+import com.turkraft.springfilter.boot.Filter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -60,18 +62,11 @@ public class UserController {
 
     @GetMapping("/users")
     public ResponseEntity<ResultPaginationDTO> getAllUser(
-            @RequestParam("current") Optional<String> currentOptional,
-            @RequestParam("pageSize") Optional<String> pageSizeOptional
-    ){
-        String sCurrent = currentOptional.isPresent() ? currentOptional.get() : "";
-        String sPageSize = pageSizeOptional.isPresent() ? pageSizeOptional.get() : "";
+        @Filter Specification<User> spec,
+        Pageable pageable){
 
-        int current = Integer.parseInt(sCurrent);
-        int pageSize = Integer.parseInt(sPageSize);
 
-        Pageable pageable = PageRequest.of(current - 1, pageSize);
-
-        ResultPaginationDTO rs = this.userService.fetchAllUser(pageable);
+        ResultPaginationDTO rs = this.userService.fetchAllUser(spec);
 
         return ResponseEntity.status(HttpStatus.OK).body(rs);
     }
@@ -81,6 +76,5 @@ public class UserController {
         User user = this.userService.updateAUser(userUpdate);
 //        return ResponseEntity.status(HttpStatus.OK).body(user);
         return ResponseEntity.ok(user);
-
     }
 }
