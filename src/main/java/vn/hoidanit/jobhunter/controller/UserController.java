@@ -65,8 +65,7 @@ public class UserController {
         @Filter Specification<User> spec,
         Pageable pageable){
 
-
-        ResultPaginationDTO rs = this.userService.fetchAllUser(spec);
+        ResultPaginationDTO rs = this.userService.fetchAllUser(spec, pageable);
 
         return ResponseEntity.status(HttpStatus.OK).body(rs);
     }

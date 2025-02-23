@@ -39,19 +39,19 @@ public class UserService {
 
     }
 
-    public ResultPaginationDTO fetchAllUser(Specification<User> pageable){
-        List<User> pageUser = this.userRepository.findAll(pageable);
+    public ResultPaginationDTO fetchAllUser(Specification<User> spec, Pageable pageable){
+        Page<User> pageUser = this.userRepository.findAll(spec, pageable);
         ResultPaginationDTO rs = new ResultPaginationDTO();
         Meta mt = new Meta();
 
-//        mt.setPage(pageUser.getNumber() + 1);
-//        mt.setPageSize(pageUser.getSize());
-//
-//        mt.setPages(pageUser.getTotalPages());
-//        mt.setTotal(pageUser.getTotalElements());
+        mt.setPage(pageUser.getNumber() + 1);
+        mt.setPageSize(pageUser.getSize());
+
+        mt.setPages(pageUser.getTotalPages());
+        mt.setTotal(pageUser.getTotalElements());
 
         rs.setMeta(mt);
-        rs.setResult(pageUser);
+        rs.setResult(pageUser.getContent());
         
         return rs;
     }
