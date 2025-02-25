@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.*;
 import vn.hoidanit.jobhunter.domain.Company;
 import vn.hoidanit.jobhunter.domain.dto.ResultPaginationDTO;
 import vn.hoidanit.jobhunter.service.CompanyService;
+import vn.hoidanit.jobhunter.util.annotation.ApiMessage;
 
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/api/v1")
 public class CompanyController {
 
     private final CompanyService companyService;
@@ -35,6 +37,7 @@ public class CompanyController {
     }
 
     @GetMapping("/companies")
+    @ApiMessage("fetch companies")
     public ResponseEntity<ResultPaginationDTO> getAllCompanies(
             @Filter Specification<Company> spec, Pageable pageable){
 
