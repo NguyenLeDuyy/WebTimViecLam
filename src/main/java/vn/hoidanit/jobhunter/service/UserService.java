@@ -63,7 +63,7 @@ public class UserService {
             userExisted.setName(reqUser.getName());
             userExisted.setPassword(reqUser.getPassword());
             //update
-            return this.userRepository.save(reqUser);
+            return this.userRepository.save(userExisted);
         }
         return null;
     }
